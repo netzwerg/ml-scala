@@ -1,0 +1,32 @@
+apply plugin: 'scala'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+version = '0.1-SNAPSHOT'
+
+project.ext {
+    scalaVersion = '2.9.2'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://repo.typesafe.com/typesafe/repo"
+    }
+}
+
+dependencies {
+    scalaTools "org.scala-lang:scala-compiler:${scalaVersion}"
+    scalaTools "org.scala-lang:scala-library:${scalaVersion}"
+
+    compile "org.scala-lang:scala-library:${scalaVersion}"
+    compile "com.github.scala-incubator.io:scala-io-core_${scalaVersion}:0.4.1-seq"
+    compile "play:play_2.9.1:2.0.2"
+
+    testCompile "org.scalatest:scalatest_${scalaVersion}:1.+"
+    testCompile "junit:junit:4.+"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.3'
+}

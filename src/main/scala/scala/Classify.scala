@@ -22,7 +22,7 @@ object Classify extends App {
   val classifier = new NaiveBayes.Trainer().train(trainingData)
 
   // classifying arbitrary sports example
-  val sportsTestData: Counter[String, Double] = Counter.count("philadelphia", "christmas").mapValues(_.toDouble)
+  val sportsTestData = Counter.count("philadelphia", "christmas").mapValues(_.toDouble)
   val classifiedSports = classifier.classify(sportsTestData)
   assert(classifiedSports == Sports)
 

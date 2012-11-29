@@ -10,6 +10,9 @@ project.ext {
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 
 dependencies {
@@ -19,6 +22,7 @@ dependencies {
     compile fileTree(dir: 'lib')
     compile "org.scala-lang:scala-library:${scalaVersion}"
     compile "com.github.scala-incubator.io:scala-io-core_${scalaVersion}:0.4.1-seq"
+    compile "org.scalanlp:breeze-learn_${scalaVersion}:0.2-SNAPSHOT"
 
     testCompile "org.scalatest:scalatest_${scalaVersion}:1.+"
     testCompile "junit:junit:4.+"

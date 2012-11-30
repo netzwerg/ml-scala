@@ -1,4 +1,4 @@
-package scala
+package classify
 
 import io.Source
 import breeze.classify.NaiveBayes
@@ -7,12 +7,12 @@ import breeze.data.Example
 import math._
 
 /**
- * Classifies NY Times articles previously fetched via [[scala.NYTimesPull]]. Uses naive
- * Bayes classifier from <a href="https://github.com/dlwh/breeze">Breeze</a> library.
+ * Classifies NY Times articles previously fetched via [[classify.NYTimesPull]]. Uses a naive
+ * Bayes classifier from the <a href="https://github.com/dlwh/breeze">Breeze</a> library.
  *
  * Inspired by Hilary Mason's http://github.com/hmason/ml_class/blob/master/intro_web_data/classify.py
  */
-object Classify extends App {
+object ArticleClassify extends App {
 
   val PrettyPrint = "\n%s \nClassification probability for '%s'\n%s"
 
@@ -21,7 +21,7 @@ object Classify extends App {
   val Sports = "sports"
 
   // creating & training classifier
-  val trainingData = readExamples(List(Arts, Sports))
+  val trainingData = createExamples(List(Arts, Sports))
   val classifier = new NaiveBayes.Trainer().train(trainingData)
 
   // classifying arbitrary CNN sports example
@@ -38,14 +38,16 @@ object Classify extends App {
   val classifiedArtsProb = normalizeScores(classifier.scores(artsTestData)).get(Arts).get
   println(PrettyPrint.format(Arts.toUpperCase, ArtsSentence, classifiedArtsProb))
 
-  def readExamples(labels: Seq[String]) = {
+  def createExamples(labels: Seq[String]) = {
     for {
       label <- labels
-      counter = createCounter(Source.fromFile(label).mkString)
+      counter = createCounter(readFromFile("/" + label))
     } yield {
       Example(label, counter)
     }
   }
+
+  def readFromFile(name: String) = Source.fromURL(getClass.getResource(name)).mkString
 
   def createCounter(s: String) = {
     val langData = breeze.text.LanguagePack.English

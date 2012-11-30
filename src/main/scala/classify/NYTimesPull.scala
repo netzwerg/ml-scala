@@ -1,4 +1,4 @@
-package scala
+package classify
 
 import io.Source
 import play.api.libs.json._
@@ -42,7 +42,7 @@ object JsonReader {
 object FileWriter {
 
   def dump(fileName: String, contents: Seq[String]) {
-    val out = new PrintWriter(fileName)
+    val out = new PrintWriter("src/main/resources/" + fileName)
     contents.map(out.println(_))
   }
 
